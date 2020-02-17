@@ -7,7 +7,7 @@ Web tool for online TRPG based on flask.
   - Activation Register
   
 - Dicebot with SQL reading function. **(Nearly Done)**
-  - 酷Q + Nonebot
+  - Dicebot
   - func <kbd>RollDice()</kbd>        **Done**
   - func <kbd>Login()</kbd>           **Done**
   - func <kbd>Use_character()</kbd>   **Todo**
