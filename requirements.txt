@@ -1,0 +1,11 @@
+flask
+flask-script
+flask-sqlalchemy
+flask_mail
+flask_login
+flask_admin
+flask_socketio
+
+flask_pagedown
+markdown
+pymysql

@@ -1,0 +1,67 @@
+{% extends "navigate.html" %}
+{% block title %} {{title}} {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/article.css')}}">
+
+<script src="{{ url_for('static',filename='editormd/examples/js/jquery.min.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static',filename='editormd/css/editormd.css') }}"/>
+<script src="{{ url_for('static',filename='editormd/editormd.min.js') }}"></script>
+{% endblock %}
+
+{% block content_full %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="flash">
+    {% for message in messages %}
+    <div class="alert alert-success" style="text-align: center">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <strong>{{ message }}</strong></div>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<form action="" method="POST">
+    {{ form.csrf_token }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                {{form.state(class="form-control", placeholder="帖子状态")}}
+            </div>
+            <div class="col-md-2">
+                {{form.tag(class="form-control", placeholder="标签")}}
+            </div>
+            <div class="col-md-8">
+                {{form.title(class="form-control", placeholder="请输入标题")}}
+            </div>
+        </div>
+    </div>
+
+    <HR>
+
+    <div id="layout" class="editor">
+        <div id="test-editor" class="'editormd editormd-vertical editormd-theme-dark">
+            {{form.body(class="editormd-markdown-texarea", style="display: none;")}}
+        </div>
+    </div>
+
+    <script src="{{ url_for('static',filename='editormd/examples/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='editormd/editormd.min.js') }}"></script>
+    <script type="text/javascript">
+    $(function() {
+        var editor = editormd("test-editor", {
+            // width: "90%",
+            height: 640,
+
+            path   : "{{ url_for('static',filename='editormd/lib/') }}"
+
+        });
+    });
+
+    </script>
+    {{form.submit}}
+</form>
+
+
+{% endblock %}

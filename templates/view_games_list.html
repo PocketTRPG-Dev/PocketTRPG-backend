@@ -1,0 +1,36 @@
+{% extends "navigate.html" %}
+{% block title %} {{title}} {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/view_games_list.css')}}">
+{% endblock %}
+
+{% block content_full %}
+
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash">
+                {% for message in messages %}
+                    <div class="alert alert-success" style="text-align: center">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <strong>{{ message }}</strong></div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+{% endwith %}
+
+<div class="list-group">
+    <a href="#" class="list-group-item active">游戏列表</a>
+    {% if games_list %}
+        {% for item in games_list %}
+            <a href="{{url_for('view_game', game_id=item.game_id, group=1)}}" class="list-group-item">
+            <span class="badge">{{item.state}}</span>
+            <h5 class="game-name"><b>{{item.title}}</b></h5>
+            <h5 class="game-comment">{{item.comment}}</h5>
+            <div class="games_info">
+                <span class="games-create_time"><strong>创建时间&nbsp;</strong>{{item.create_time}}</span>
+            </div>
+        </a>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "navigate.html" %}
+{% block title %} Characters {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/character.css')}}">
+{% endblock %}
+
+{% block content_full %}
+<div class="tab">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">角色信息</a></li>
+        <li role="presentation"><a href="#">装备</a></li>
+        <li role="presentation"><a href="#">法术书</a></li>
+    </ul>
+</div>
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+<!--    <div class="panel-heading">Panel heading</div>-->
+<!--    <div class="panel-body">-->
+<!--        <p>...</p>-->
+<!--    </div>-->
+
+    <!-- Table -->
+    <form action="" method="POST">
+    <table class="table table-striped">
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        <tr>
+            <th colspan="7" rowspan="3" class="logo"><img src="{{url_for('static', filename='img/pathfinder_logo.png')}}" alt=""></th>
+            <th colspan="2" class="control-button"><button type="submit" class="btn btn-primary btn-block">Pull</button></th>
+            <th colspan="2" class="control-button"><button type="submit" class="btn btn-primary btn-block">创建角色</button></th>
+            <th colspan="2" class="control-button"><button type="submit" class="btn btn-primary btn-block">清空数据</button></th>
+            <th colspan="2" class="control-button"><button type="submit" class="btn btn-primary btn-block">角色导出</button></th>
+            <th colspan="2" class="control-button"><button type="submit" class="btn btn-primary btn-block">角色导入</button></th>
+        </tr>
+
+        <tr>
+            <th colspan="1" class="tabel-label">角色姓名</th>
+            <th colspan="2" class="input-info"><input type="text" class="form-control" id="charaInfo" placeholder="角色姓名" name="name"></th>
+            <th colspan="1">阵营</th>
+            <th colspan="2"><input type="text" class="form-control" id="characteristic" placeholder="阵营"></th>
+            <th colspan="1">玩家姓名</th>
+            <th colspan="2"><input type="text" class="form-control" id="playerName" placeholder="玩家姓名"></th>
+        </tr>
+
+        <tr>
+            <th colspan="1" class="tabel-label">角色等级</th>
+            <th colspan="2" class="input-info"><input type="text" class="form-control" id="charaLevel" placeholder="角色等级" name="features"></th>
+            <th colspan="1" class="tabel-label">信仰</th>
+            <th colspan="2" class="input-info"><input type="text" class="form-control" id="faith" placeholder="信仰"></th>
+            <th colspan="1" class="tabel-label">故乡</th>
+            <th colspan="2" class="input-info"><input type="text" class="form-control" id="homeTown" placeholder="故乡"></th>
+        </tr>
+
+        <tr>
+            <th>种族</th>
+            <th><input type="text" class="form-control" id="raise" placeholder="种族"></th>
+            <th>体型</th>
+            <th><input type="text" class="form-control" id="size" placeholder="信仰"></th>
+            <th>性别</th>
+            <th><input type="text" class="form-control" id="gender" placeholder="性别"></th>
+            <th>年龄</th>
+            <th><input type="text" class="form-control" id="age" placeholder="年龄"></th>
+            <th>身高</th>
+            <th><input type="text" class="form-control" id="height" placeholder="身高"></th>
+            <th>体重</th>
+            <th><input type="text" class="form-control" id="weight" placeholder="体重"></th>
+            <th>发色</th>
+            <th><input type="text" class="form-control" id="hari-color" placeholder="发色"></th>
+            <th>瞳色</th>
+            <th><input type="text" class="form-control" id="pupil-color" placeholder="瞳色"></th>
+        </tr>
+
+    </table>
+    </form>
+</div>
+{% endblock %}

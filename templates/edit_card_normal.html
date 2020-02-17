@@ -1,0 +1,88 @@
+{% extends "navigate.html" %}
+{% block title %} Characters {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/character.css')}}">
+
+<script src="{{ url_for('static',filename='editormd/examples/js/jquery.min.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static',filename='editormd/css/editormd.css') }}"/>
+<script src="{{ url_for('static',filename='editormd/editormd.min.js') }}"></script>
+{% endblock %}
+
+{% block content_full %}
+<div class="tab">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">角色信息</a></li>
+    </ul>
+</div>
+<div class="panel panel-default">
+    <form action="" method="POST">
+        {{ form.csrf_token }}
+
+        <div class="row">
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-primary btn-block">新建角色</button>
+            </div>
+            <div class="col-md-1">
+                <a href="#"><button type="button" class="btn btn-primary btn-block" disabled="disabled">保存修改</button></a>
+            </div>
+            <div class="col-md-1">
+                <a href="#"><button type="button" class="btn btn-primary btn-block" disabled="disabled">清空数据</button></a>
+            </div>
+            <div class="col-md-1">
+                <a href="#"><button type="button" class="btn btn-primary btn-block" disabled="disabled">角色导出</button></a>
+            </div>
+            <div class="col-md-1">
+                <a href="#"><button type="button" class="btn btn-primary btn-block" disabled="disabled">角色导入</button></a>
+            </div>
+            <div class="col-md-1">
+                {{form.name.label}}
+            </div>
+            <div class="col-md-3">
+                {{form.name(class="form-control", placeholder="Name")}}
+            </div>
+            <div class="col-md-1">
+                {{form.features.label}}
+            </div>
+            <div class="col-md-2">
+                {{form.features(class="form-control", placeholder="Features")}}
+            </div>
+        </div>
+
+        <HR>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="layout" class="editor">
+                    <div id="test-editor" class="'editormd editormd-vertical editormd-theme-dark">
+                        {{form.content(class="editormd-markdown-texarea", style="display: none;")}}
+                    </div>
+                </div>
+
+                <script src="{{ url_for('static',filename='editormd/examples/js/jquery.min.js') }}"></script>
+                <script src="{{ url_for('static',filename='editormd/editormd.min.js') }}"></script>
+                <script type="text/javascript">
+    $(function() {
+        var editor = editormd("test-editor", {
+            // width: "90%",
+            height: 640,
+
+            path   : "{{ url_for('static',filename='editormd/lib/') }}"
+
+        });
+    });
+
+                </script>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label for="">角色数据  格式如 <font color="#B22222"> "属性A":".r1d20+5 力量", "属性B":".r1d12+3 闪避"</font> </label>
+                {{form.custom(class ="form-control", rows="5", cols="20")}}
+            </div>
+        </div>
+
+
+    </form>
+</div>
+{% endblock %}

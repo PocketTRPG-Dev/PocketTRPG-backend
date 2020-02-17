@@ -1,0 +1,57 @@
+{% extends "navigate.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/user_info.css')}}">
+{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="flash">
+    {% for message in messages %}
+    <div class="alert alert-success" style="text-align: center">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <strong>{{ message }}</strong></div>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="media">
+            <div class="media-left">
+                <a href="#">
+                    <img class="media-object" src="{{url_for('static', filename='img/avatar.jpg')}}" alt="...">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{user.username}} <span class="label label-default">{{user.role}}</span></h4>
+                {{user.email}}
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>IP地址</dt>
+            <dd>{{user.user_ip_address}}</dd>
+            <dt>QQ</dt>
+            <dd>{{user.qq}}</dd>
+        </dl>
+    </div>
+
+    <div class="panel-footer">
+        <h4>
+            {% for item in user.badges %}
+                <span class="{{item.badge_class}}" title={{item.name}} data-container="body" data-toggle="popover"
+                  data-placement="right" data-content={{item.content}}>{{item.name}}</span>
+            {% endfor %}
+        </h4>
+    </div>
+</div>
+
+{% endblock %}

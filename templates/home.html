@@ -1,0 +1,97 @@
+{% extends "navigate.html" %}
+{% block title %} {{title}} {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+{% endblock %}
+
+{% block content_full %}
+
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash">
+                {% for message in messages %}
+                    <div class="alert alert-success" style="text-align: center">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <strong>{{ message }}</strong></div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+{% endwith %}
+
+<div class="jumbotron">
+    <h1> Welcome to PocketTRPG </h1>
+    <p> Login and Create your online TRPG Character Card.</p>
+</div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Getting Started</h2>
+            <p>使用<kbd>PocketTRPG</kbd>，注册、登录并创建属于你的网团角色卡。</p>
+            <p><a class="btn btn-default" href="{{url_for('edit_normal')}}">创建通用角色卡 &raquo;</a></p>
+            <p><a class="btn btn-default" href="{{url_for('doc')}}">快捷命令 &raquo;</a></p>
+            <p>&nbsp;</p>
+            <p>你可以在<kbd>资讯区</kbd>发布和查看最新的开团信息，寻找适合自己的冒险之路.</p>
+            <p><a class="btn btn-default" href="{{url_for('article')}}">查看帖子 &raquo;</a></p>
+        </div>
+
+<!--        <div class="col-md-4">-->
+<!--            <h2><span class="glyphicon glyphicon-tower" aria-hidden="true"></span> Dicebot Plugin</h2>-->
+<!--            <p>-->
+<!--                Dicebot插件提供了一个基于酷Q的骰子机器人，与通用的骰娘不同，本插件可以联动用户在<kbd>PocketTRPG</kbd>中登录的角色卡数据。-->
+<!--            </p>-->
+<!--            <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>-->
+<!--            <p><a class="btn btn-default" href="{{url_for('doc')}}">Dicebot 相关文档 &raquo;</a></p>-->
+<!--        </div>-->
+
+        <div class="col-md-4">
+            <h2><span class="glyphicon glyphicon-tower" aria-hidden="true"></span> Game Plugin</h2>
+            <p>
+                <kbd>PocketTRPG</kbd>提供了一个内置骰子机器人的聊天室模式。
+            </p>
+            <p><a class="btn btn-default" href="#">Learn more &raquo;</a></p>
+            <p><a class="btn btn-default" href="{{url_for('public_games')}}">开放游戏 &raquo;</a></p>
+        </div>
+
+        <div class="col-md-4">
+            <h2><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Mods Sharing</h2>
+            <p>在<kbd>模组分享区</kbd>你可以上传和下载自定义的模组，并与社区里的其他玩家讨论撰写和修改模组的心得技巧。或者是对其他玩家开放的自定义模组进行二次创作。</p>
+            <p>你同样可以在这里获取各种公开免费的官方模组。</p>
+            <p>但是这个模块还没装修完毕w</p>
+            <p><a class="btn btn-default" href="{{url_for('mods')}}">Learn more &raquo;</a></p>
+        </div>
+
+        <ul class="nav nav-list"><li class="divider"></li></ul>
+        <h5 class="page-header"></h5>
+
+        <div class="col-md-4">
+            <h2><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> 克苏鲁的呼唤TRPG</h2>
+            <p>改编自H.P洛夫克拉夫特（H.P. Lovecraft）的代表作《The Call of Cthulhu》</p>
+            <p>主要以探索和解谜为主，战斗为辅。故事背景一般被设计在现代（21世纪）或是近代（1920年代）。常见的游戏剧本大多是玩家被卷入一些神秘事件并着手调查抑或是想办法从某些困境逃脱，大多会有恐怖或是血腥的情节。</p>
+            <p>游戏中的玩家被称为调查员而主持人则是守密人（守护者）。</p>
+            <p><a class="btn btn-default" href="https://trow.cc/board/index.php?showtopic=12804">Learn more &raquo;</a></p>
+            <p><a class="btn btn-default" href="https://labyrpg.com/products/toc/">克苏鲁迷踪 &raquo;</a></p>
+        </div>
+
+        <div class="col-md-4">
+            <h2><span class="glyphicon glyphicon-road" aria-hidden="true"></span> Pathfinder TRPG</h2>
+            <p>开拓者【Pathfinder】是Paizo公司出品的一款桌面角色扮演游戏，曾先后多次获得包括最佳出版商和最佳游戏等重要奖项在内多个类别的ENnie大奖，亦曾于2011年至2014年间占据角色扮演游戏销量排行榜第一的位置。</p>
+            <p>其于2008年进行公开测试便荣获当年最佳免费资料奖，自出版至今夺得过大大小小几十项游戏奖项，毫无疑问是近十年来最为出色的桌面角色扮演游戏之一。</p>
+            <p>开拓者角色扮演游戏内容丰富。拥王者【Kingmaker】便是基于同名冒险之路（Adventure Path）改编而成，这样的冒险之路现在已出版的就有二十三部之多。</p>
+            <p>而开拓者游戏的主世设格拉利昂世界更是有着上百本的丰富设定。除此之外还有基于开拓者设定的小说、漫画，以及各式各样的第三方产品，共同构建起了这个庞大的体系。</p>
+
+            <p><a class="btn btn-default" href="http://www.goddessfantasy.net/bbs/index.php?board=1723.0">Learn more &raquo;</a></p>
+            <p><a class="btn btn-default" href="https://labyrpg.com/products/pathfinder/">官方中文版 &raquo;</a></p>
+        </div>
+
+        <div class="col-md-4">
+            <h2><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span> GUPRS</h2>
+            <p>泛用无界角色扮演系统（Generic Universal RolePlaying System），简称为GURPS。它是史蒂夫·杰克逊(Steve Jackson)发展的角色扮演游戏。这套系统的特色是是可以适用在所有已存在及发展中的所有角色扮演游戏</p>
+            <p><kbd>泛用:</kbd> 每个人玩游戏的口味不一样；有的人喜欢选择简单明确，玩的速度能够很快的方式。有的人则喜欢事物的叙述详实细腻，最好规则也巨细靡遗，越真实越好。而多数人则是借于两者之间。GURPS只定义了一套最简单的系统规则，但是它提供了许多种不同的备用规则，并且彼此之间不相冲突，让玩家可依喜好而选用不同的备用规则，甚或全然只用基本规则来玩。这是套适合各种人玩的游戏系统。</p>
+            <p><kbd>无界:</kbd> GURPS适用于各种体裁的世界。玩家利用GURPS创造出奇幻、科幻世界，也可以创造电脑黑客的、超人英雄的、恐怖之夜的、侦探推理的、二次大战的甚或时光旅行的故事。如果你想让你创造的盟军战将活跃在文艺复兴时代，GURPS可以轻易达成你的愿望。</p>
+            <p><kbd>角色扮演:</kbd> GURPS和某些只需要会砍杀的角色扮演游戏不同，它可以让玩家去表演一个角色，或者是让一个角色表现出一个玩家的特性来。当然，如果你单纯地砍砍杀杀，GURPS无疑地也可以作到。</p>
+            <p><kbd>系统:</kbd> GURPS是一套真正完成的系统。有些号称为系统的游戏，最初是一套基本规则的组合，然後不断地出版更新版、修正版，让玩家根本无所适从。GURPS则是完整地给了玩家所有的规则当工具，玩家利用这些工具，无论想创造出什么世界，都可以不受限地创造出来。</p>
+
+            <p><a class="btn btn-default" href="http://www.sjgames.com/gurps/">Learn more &raquo;</a></p>
+        </div>
+    </div>
+{% endblock %}

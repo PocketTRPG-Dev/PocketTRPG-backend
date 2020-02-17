@@ -1,0 +1,17 @@
+.jumbotron-name{
+    text-align: center;
+}
+
+.character-name{
+    color:#B22222;
+    font-weight:bold;
+}
+
+.level{
+	 color:#696969;
+	 font-weight:bold;
+}
+
+.list-group.list-group-item.article-group{
+    float=left;
+}

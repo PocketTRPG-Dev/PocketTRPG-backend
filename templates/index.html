@@ -1,0 +1,41 @@
+{% extends "navigate.html" %}
+{% block title %} {{title}} {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+{% endblock %}
+
+{% block content_full %}
+
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash">
+                {% for message in messages %}
+                    <div class="alert alert-success" style="text-align: center">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <strong>{{ message }}</strong></div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+{% endwith %}
+
+<div class="list-group">
+    <a href="#" class="list-group-item active">
+        角色卡一览
+    </a>
+    {% if card_list %}
+        {% for item in card_list %}
+        <a href="{{url_for('show_normal', card_id=item.card_id)}}" class="list-group-item">
+            <span class="badge">{{item.tag}}</span>
+            <h5 class="character-name"><b>{{item.name}}</b></h5>
+            <h5 class="level">{{item.features}}</h5>
+        </a>
+        {% endfor %}
+    {% else %}
+        <a href="{{url_for('edit_normal')}}" class="list-group-item">
+            <span class="badge">Pathfinder</span>
+            <h5 class="character-name"><b>空白角色卡</b></h5>
+            <h5 class="level">脚男v1</h5>
+        </a>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+.list-group.list-group-item.article-group{
+    float=left;
+}
+
+.article-title a{
+    color: #259;
+    font-weight: 600;
+}
+
+.article-info{
+    text-align: right;
+}
+
+.article-info .article-author{
+    margin: 20px;
+}

@@ -1,0 +1,23 @@
+{% extends "navigate.html" %}
+{% block title %} Index {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-success" role="alert">
+    <p>Web Construction progress</p>
+</div>
+
+<div class="progress">
+  <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+    60%
+  </div>
+</div>
+
+<h2><span class="glyphicon glyphicon-play" aria-hidden="true"></span> 在游戏中使用快捷命令</h2>
+            <p>使用<kbd>.strong #content</kbd>命令加粗<kbd>#content</kbd>发言</p>
+            <p>使用<kbd>.rd</kbd>或者<kbd>.r4d6</kbd>进行快捷投骰</p>
+
+{% endblock %}

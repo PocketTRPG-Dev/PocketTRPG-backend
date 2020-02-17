@@ -1,0 +1,183 @@
+{% extends "navigate.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/view_map.css')}}">
+<link href="https://cdn.bootcss.com/bootstrap-table/1.12.2/bootstrap-table.css" rel="stylesheet">
+<link href="https://cdn.bootcss.com/bootstrap-table/1.12.2/extensions/reorder-rows/bootstrap-table-reorder-rows.css"
+      rel="stylesheet">
+{% endblock %}
+
+{% block content_full %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="flash">
+    {% for message in messages %}
+    <div class="alert alert-success" style="text-align: center">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <strong>{{ message }}</strong></div>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="map-window pre-scrollable" style="max-height:600px">
+            <canvas id="canvas" width="{{map.size_weight}}" height="{{map.size_height}}"></canvas>
+            {% if data != 0 %}
+            {% for item in data %}
+            <div class="token" style="" id="{{item}}">
+                <label for="token">{{item}}</label>
+                <label for="loc"></label>
+                <script type="text/javascript">
+							var token = document.getElementById("{{item}}");
+							var items = {{ data | tojson | safe }};
+							// var item_name = "{{item}}"
+							// console.log(item_name);
+							token.style.left = items.{{item}}.left + "px";
+							token.style.top = items.{{item}}.top + "px";
+							token.style.top = items.{{item}}.top + "px";
+
+
+
+
+
+
+                </script>
+                <span class="glyphicon glyphicon-knight" aria-hidden="true"></span>
+                <!--						<img src="glyphicon glyphicon-knight" alt="">-->
+            </div>
+            {% endfor %}
+            {% endif %}
+            <div class="token" style="top: 60px;left: 25px;">
+                <label for="token"></label>
+                <img src="{{url_for('static', filename='img/avatar.jpg')}}" alt="" class="token-img">
+            </div>
+        </div>
+        <script>
+			var canvas = document.getElementById("canvas");
+			var context = canvas.getContext("2d");
+
+			function drawGrid(context,color,stepx,stepy){
+				context.strokeStyle = color;
+				context.lineWidth = 0.5;
+				for(var i = stepx+0.5;i<context.canvas.width;i+=stepx){
+					context.beginPath();
+					context.moveTo(i,0);
+					context.lineTo(i,context.canvas.height);
+					context.stroke();
+				}
+
+				for(var i = stepy+0.5;i<context.canvas.height;i+=stepy){
+					context.beginPath();
+					context.moveTo(0,i);
+					context.lineTo(context.canvas.width,i);
+					context.stroke();
+				}
+			}
+			drawGrid(context,"#ccc",50,50);
+
+        </script>
+    </div>
+    <div class="col-md-2">
+        <div class="row">
+            <a href="#">
+                <button class="btn btn-default">保存地图</button>
+            </a>
+            <a href="#">
+                <button class="btn btn-default">新建Token</button>
+            </a>
+        </div>
+        <HR>
+        <ul class="list-group">
+            <li class="list-group-item">X: <label id='locX'></label></li>
+            <li class="list-group-item">Y: <label id='locY'></label></li>
+        </ul>
+
+        <table id="tabletest">
+            <thead>
+            <tr>
+                <th data-field="name">Token List</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{item}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script>
+		var tokens = document.getElementsByClassName("token");
+		for (i = 0; i < tokens.length; i++) {
+			dragTokenFunc(tokens[i]);
+    	}
+		function dragTokenFunc(Drag) {
+			Drag.onmousedown = function(event) {
+				var ev = event || window.event;
+				event.stopPropagation();
+				var disX = ev.clientX - Drag.offsetLeft;
+				var disY = ev.clientY - Drag.offsetTop;
+				document.onmousemove = function(event) {
+					var ev = event || window.event;
+					Drag.style.left = ev.clientX - disX + "px";
+					Drag.style.top = ev.clientY - disY + "px";
+					Drag.style.cursor = "move";
+					// var react = Drag.getBoundingClientRect();
+					document.getElementById("locX").innerHTML = Drag.style.left;
+					document.getElementById("locY").innerHTML = Drag.style.top;
+				};
+
+			};
+			Drag.onmouseup = function() {
+				document.onmousemove = null;
+				this.style.cursor = "default";
+			};
+			Drag.onmouseover = function() {
+				this.style.background = "rgba(0, 0, 0, 0.6)";
+			};
+			Drag.onmouseout = function() {
+				this.style.background = "rgba(0, 0, 0, 0.5)";
+			};
+		};
+
+
+
+</script>
+
+
+<script src="https://cdn.bootcss.com/bootstrap-table/1.12.2/bootstrap-table.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.12.2/locale/bootstrap-table-zh-CN.js"></script>
+<script src="https://cdn.bootcss.com/TableDnD/1.0.3/jquery.tablednd.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.12.2/extensions/reorder-rows/bootstrap-table-reorder-rows.js"></script>
+<script type="text/javascript">
+            $(document).ready(function () {
+                $("#tabletest").bootstrapTable({
+                    reorderableRows: true,
+                    striped: true,
+                    search: true,
+                    toolbar: '#toolbar',
+                    useRowAttrFunc: true,
+                });
+            });
+            $("#btn_add").click(function () {
+
+                $('#tabletest').bootstrapTable('append', { 'id': 'aa', 'name': 'bb', 'price': '1' });
+
+            });
+            $("#getdata").click(function () {
+                alert(JSON.stringify($('#tabletest').bootstrapTable('getData')));
+            });
+
+</script>
+
+{% endblock %}

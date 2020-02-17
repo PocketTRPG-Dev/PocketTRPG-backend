@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/navigate.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>$(function () {
+$('[data-toggle="popover"]').popover()
+})
+
+    </script>
+    {% block head %}{% endblock %}
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{url_for('home')}}">
+                <img alt="Brand" src="{{url_for('static', filename='img/logo.png')}}" alt="Brand"
+                     style="max-width:170px;margin-top:-10px;">
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="{{url_for('article')}}">信息板<span class="sr-only">(current)</span></a></li>
+                <li><a href="{{url_for('mods')}}">模组区<span class="sr-only">(current)</span></a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Game<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url_for('view_games_list')}}">我的游戏</a></li>
+                        <li><a href="{{url_for('public_games')}}">公开游戏</a></li>
+                        <li><a href="{{url_for('join_game')}}">加入游戏</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{url_for('create_game')}}">新建游戏</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">角色<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{url_for('index')}}">角色库</a></li>
+                        <li><a href="#">Pathfinder</a></li>
+                        <li><a href="#">DnD-3R</a></li>
+                        <li><a href="#">DnD-5E</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">CoC-8</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">GURPS</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{url_for('edit_normal')}}">Normal</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="关键词">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                {% if user %}
+                {% if user.role == 'Admin' %}
+                <li><a href="{{url_for('admin.index')}}">Console</a>
+                <li><a href="{{url_for('get_ac')}}">获取激活码</a></li>
+                <li><a href="{{url_for('generate_ac')}}">生成激活码</a></li>
+                <li><a href="{{url_for('logout')}}"></a></li>
+                {% endif %}
+                <li><a href="{{url_for('user_info', user_id=current_user.get_id())}}">{{user.username}}</a></li>
+                <li><a href="{{url_for('logout')}}">Logout</a></li>
+                {% else %}
+                <li><a href="{{url_for('login')}}">Login</a></li>
+                <li><a href="{{url_for('register')}}">Register</a></li>
+                {% endif %}
+
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="content">
+    {% block content %}
+
+    {% endblock %}
+</div>
+
+<div class="content-full">
+    {% block content_full %}
+
+    {% endblock %}
+    <hr/>
+    <footer>
+        <p>&copy; {{ year }} - PocketTRPG Beta 0.1v</p>
+        <a href="http://beian.miit.gov.cn">皖ICP备20002115号-1</a>
+    </footer>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+{% extends "navigate.html" %}
+{% block title %} Characters {% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/character.css')}}">
+
+<script src="{{ url_for('static',filename='editormd/examples/js/jquery.min.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static',filename='editormd/css/editormd.css') }}"/>
+<script src="{{ url_for('static',filename='editormd/editormd.min.js') }}"></script>
+{% endblock %}
+
+{% block content_full %}
+<div class="tab">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#">角色信息</a></li>
+    </ul>
+</div>
+<div class="panel panel-default">
+    <form action="" method="POST">
+        {{ form.csrf_token }}
+
+        <div class="row">
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-primary btn-block">新建角色</button>
+            </div>
+            <div class="col-md-1">
+                {{form.name.label}}
+            </div>
+            <div class="col-md-3">
+                {{form.name(class="form-control", placeholder="Name")}}
+            </div>
+        </div>
+
+        <HR>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div id="layout" class="editor">
+                    <div id="test-editor" class="'editormd editormd-vertical editormd-theme-dark">
+                        {{form.content(class="editormd-markdown-texarea", style="display: none;")}}
+                    </div>
+                </div>
+
+                <script src="{{ url_for('static',filename='editormd/examples/js/jquery.min.js') }}"></script>
+                <script src="{{ url_for('static',filename='editormd/editormd.min.js') }}"></script>
+                <script type="text/javascript">
+    $(function() {
+        var editor = editormd("test-editor", {
+            // width: "90%",
+            height: 640,
+
+            path   : "{{ url_for('static',filename='editormd/lib/') }}"
+
+        });
+    });
+
+                </script>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

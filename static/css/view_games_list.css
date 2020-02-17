@@ -1,0 +1,17 @@
+.games-info{
+    text-align: right;
+}
+
+.game-name{
+    color:#B22222;
+    font-weight:bold;
+}
+
+.game-comment{
+	 color:#696969;
+	 font-weight:bold;
+}
+
+.list-group.list-group-item.article-group{
+    float=left;
+}

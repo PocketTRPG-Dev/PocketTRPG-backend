@@ -1,0 +1,242 @@
+{% extends "navigate.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/view_game.css')}}">
+{% endblock %}
+
+
+{% block content_full %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class="flash">
+    {% for message in messages %}
+    <div class="alert alert-success" style="text-align: center">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        <strong>{{ message }}</strong></div>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+{% if game.author_id == current_user_id %}
+<div class="container">
+    <div class="row">
+        <label for="info">游戏状态变更 &emsp;</label>
+        <a href="{{url_for('change_game_state', game_id=game.game_id, state='Open')}}">
+            <button type="button" class="btn btn-default">Open</button>
+        </a>
+        <a href="{{url_for('change_game_state', game_id=game.game_id, state='Locked')}}">
+            <button type="button" class="btn btn-default">Locked</button>
+        </a>
+        <a href="{{url_for('change_game_state', game_id=game.game_id, state='Other')}}">
+            <button type="button" class="btn btn-default">Other</button>
+        </a>
+        <a href="{{url_for('delete_own_game', game_id=game.game_id)}}">
+            <button type="button" class="btn btn-default">删除游戏</button>
+        </a>
+    </div>
+</div>
+
+<HR>
+{% endif %}
+
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        <h3 class="panel-title"><strong>游戏ID:<font color="#B22222">{{game.game_id}}</font>&nbsp;&nbsp;{{title}}&nbsp;&nbsp;</strong><span
+                class="badge">{{game.state}}</span></h3>
+    </div>
+    <div class="panel-body">
+        <p>{{game.comment}}</p>
+    </div>
+
+    <div class="panel-footer">
+        <p><strong>成员&nbsp;{{game.num_member}}/{{game.member_limit}}</strong>
+            {% for item in game.users %}
+            <span class="badge" title="暂无徽章"
+            data-container="body" data-toggle="popover" data-placement="right"
+            data-content="跑团之人">{{item.username}}</span>
+            {% endfor %}</p>
+        <strong class="article-info">{{speaker}}</strong>
+        <p class="article-info"><label for="create_time">Create Time：</label>{{game.create_time}}</p>
+    </div>
+    <div class="panel-footer">
+        <a href="#" download="Log.html">
+            <button type="button" class="btn btn-default"><s>导出战报</s></button>
+        </a>
+        <!--        <script>-->
+        <!--            document.querySelector('a').onclick=function(){-->
+        <!--                var v=document.querySelector('#game-posts').value;-->
+        <!--                var b=new Blob([v]);-->
+        <!--                var href=URL.createObjectURL(b);-->
+        <!--                this.href=href;-->
+        <!--            }-->
+        <!--        </script>-->
+        <a href="{{url_for('exit_game', game_id=game.game_id)}}">
+            <button type="button" class="btn btn-default">退出游戏</button>
+        </a>
+    </div>
+</div>
+
+<ul class="nav nav-tabs">
+    {% if group == '1' %}
+    <li role="presentation" class="active"><a href="{{url_for('view_game', game_id=game.game_id, group=1)}}">跑团内容</a>
+    </li>
+    {% else %}
+    <li role="presentation"><a href="{{url_for('view_game', game_id=game.game_id, group=1)}}">跑团内容</a></li>
+    {% endif %}
+
+    {% if group == '2' %}
+    <li role="presentation" class="active"><a href="{{url_for('view_game', game_id=game.game_id, group=2)}}">超游内容</a>
+    </li>
+    {% else %}
+    <li role="presentation"><a href="{{url_for('view_game', game_id=game.game_id, group=2)}}">超游内容</a></li>
+    {% endif %}
+
+    {% if game.num_group>2 %}
+    {% for i in range(game.num_group-2) %}
+    {% set index = i+3 %}
+    {% if group == index|string %}
+    <li role="presentation" class="active"><a
+            href="{{url_for('view_game', game_id=game.game_id, group=i+3)}}">{{i+3}}</a></li>
+    {% else %}
+    <li role="presentation"><a href="{{url_for('view_game', game_id=game.game_id, group=i+3)}}">{{i+3}}</a></li>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <li role="presentation"><a href="{{url_for('add_game_group', game_id=game.game_id, user_id=current_user_id)}}"><span
+            class="glyphicon glyphicon-plus" aria-hidden="true">增加分组</span></a></li>
+</ul>
+
+<div class="panel panel-default">
+    <!-- List group -->
+    <ul class="list-group" id="game-posts">
+        {% for item in post_list %}
+        {% if item.send_to %}
+        {% if game.author_id == current_user_id or current_user_username==item.send_to or
+        current_user_id==item.author_id %}
+        <li class="list-group-item">
+            <p><strong><font color="#003a6c">隐藏发言</font></strong>
+                {% if game.author_id == item.author_id %}
+                <strong><font color="#B22222">{{item.speaker}}&nbsp;({{item.author.username}})</font></strong>
+                {% else %}
+                <strong>{{item.speaker}}&nbsp;({{item.author.username}})</strong>
+                {% endif %}
+                <strong>To &nbsp;({{item.send_to}})</strong>
+                &nbsp;&nbsp;&nbsp;
+                {{item.content|safe}}
+            </p>
+        </li>
+        {% endif %}
+        {% else %}
+        <li class="list-group-item">
+            <p>
+                {% if game.author_id == item.author_id %}
+                <strong><font color="#B22222">{{item.speaker}}&nbsp;({{item.author.username}})</font></strong>
+                {% else %}
+                <strong>{{item.speaker}}&nbsp;({{item.author.username}})</strong>
+                {% endif %}
+                &nbsp;&nbsp;&nbsp;
+                {{item.content|safe}}
+            </p>
+        </li>
+        {% endif %}
+
+        {% endfor %}
+    </ul>
+</div>
+
+
+<script type="text/javascript">
+// 定时刷新 Game Post部分，时间间隔为3秒
+    $(function () {
+        setInterval(function () {
+            $("#game-posts").load(location.href + " #game-posts");
+        }, 3000);
+    })
+</script>
+
+
+<form action="" method="POST">
+    {{ form.csrf_token }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="exampleInputEmail1">{{form.speaker.label}}</label>
+            </div>
+            <div class="col-md-6">
+                <label for="exampleInputEmail1">{{form.post.label}}</label>
+            </div>
+            <div class="col-md-2">
+                <label for="exampleInputEmail1">{{form.send_to.label}}</label>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    {{form.speaker(class="form-control", placeholder="Speaker")}}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{form.post(class="form-control", placeholder="Post")}}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {{form.send_to(class="form-control", placeholder="Send To")}}
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary btn-block">回复</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <button type="button" class="btn btn-default btn-block" data-toggle="popover" title="投骰" data-placement="bottom"
+                        data-content="{{jinja2_roll_dice('.r1d4')}}">D4
+                </button>
+            </div>
+
+            <div class="col-md-2">
+                <button type="button" class="btn btn-default btn-block" data-toggle="popover" title="投骰" data-placement="bottom"
+                        data-content="{{jinja2_roll_dice('.r1d6')}}">D6
+                </button>
+            </div>
+
+            <div class="col-md-2">
+                <button type="button" class="btn btn-default btn-block" data-toggle="popover" title="投骰" data-placement="bottom"
+                        data-content="{{jinja2_roll_dice('.r1d8')}}">D8
+                </button>
+            </div>
+
+            <div class="col-md-2">
+                <button type="button" class="btn btn-default btn-block" data-toggle="popover" title="投骰" data-placement="bottom"
+                        data-content="{{jinja2_roll_dice('.r1d10')}}">D10
+                </button>
+            </div>
+
+            <div class="col-md-2">
+                <button type="button" class="btn btn-default btn-block" data-toggle="popover" title="投骰" data-placement="bottom"
+                        data-content="{{jinja2_roll_dice('.r1d20')}}">D20
+                </button>
+            </div>
+
+            <div class="col-md-2">
+                <button type="button" class="btn btn-default btn-block" data-toggle="popover" title="投骰" data-placement="bottom"
+                        data-content="{{jinja2_roll_dice('.r1d100')}}">D100
+                </button>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+{% endblock %}

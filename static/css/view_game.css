@@ -1,0 +1,6 @@
+.container{
+    margin: 0 auto;
+    position: relative;
+    top: 50%;
+    align-items: center;
+}

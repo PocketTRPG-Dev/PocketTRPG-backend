@@ -1,0 +1,64 @@
+{% extends "navigate.html" %}
+
+{% block title %} {{title}} {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+{% endblock %}
+
+
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash">
+                {% for message in messages %}
+                    <div class="alert alert-success" style="text-align: center">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <strong>{{ message }}</strong></div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+{% endwith %}
+
+<form action="" method="POST">
+    {{ form.csrf_token }}
+    <div class="from-container">
+        <h2 class="page-title">注册新用户</h2>
+        <div class="form-group">
+            <label for="exampleInputEmail1">{{form.email.label}}</label>
+            {{form.email(class="form-control", placeholder="Email")}}
+<!--            <input type="email" class="form-control" id="InputEmail" placeholder="Email" name="InputEmail">-->
+        </div>
+                <div class="form-group">
+            <label for="exampleInputEmail1">{{form.username.label}}</label>
+            {{form.username(class="form-control", placeholder="Username")}}
+<!--            <input type="text" class="form-control" id="Username" placeholder="Username" name="Username">-->
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">{{form.password.label}}</label>
+            {{form.password(class="form-control", placeholder="Password")}}
+<!--            <input type="password" class="form-control" id="InputPassword1" placeholder="Password" name="InputPassword1">-->
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">{{form.password2.label}}</label>
+            {{form.password2(class="form-control", placeholder="Confirm Password")}}
+<!--            <input type="password" class="form-control" id="InputPassword2" placeholder="Confirm Password" name="InputPassword2">-->
+        </div>
+<!--         <div class="form-group">-->
+<!--            <label for="exampleInputPassword1">{{form.invitation_code.label}}</label>-->
+<!--             {{form.invitation_code(class="form-control", placeholder="Invitation Code")}}-->
+<!--&lt;!&ndash;            <input type="text" class="form-control" id="InvitationCode" placeholder="InvitationCode" name="InvitationCode">&ndash;&gt;-->
+<!--        </div>-->
+        <div class="form-group">
+            <label for="exampleInputPassword1">{{form.activation_code.label}}</label>
+            {{form.activation_code(class="form-control", placeholder="Activation Code")}}
+<!--            <input type="text" class="form-control" id="ActivationCode" placeholder="ActivationCode" name="ActivationCode">-->
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">注册</button>
+    </div>
+</form>
+
+{% endblock %}

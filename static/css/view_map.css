@@ -1,0 +1,39 @@
+body {
+    margin: 10px;
+    background-color:#eee;
+}
+
+.map-window {
+
+    width: 100%;
+}
+
+.token {
+    margin-left:0px;
+    margin-top:0px;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border: 2px solid #92cccc;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000px;
+    top: 10px;
+    left: 25px;
+}
+
+.token-img {
+    border-radius: 30px;
+    width:45px;
+    height:45px;
+    margin-top:-20px;
+}
+
+#canvas{
+        background-color:#fff;
+        margin-left:10px;
+        margin-top:10px;
+        -webkit-box-shadow:4px 4px 8px rgba(0,0,0,0.5);
+        -moz-box-shadow:4px 4px 8px rgba(0,0,0,0.5);
+        -box-shadow:4px 4px 8px rgba(0,0,0,0.5);
+    }
