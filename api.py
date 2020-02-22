@@ -115,7 +115,12 @@ class AddNewGame(Resource):
     def post(self):
         """Create new game
                 Args:
-                    Game (json)
+                    Game (json):
+                        title  (str)
+                        comment  (text)
+                        password  (str)
+                        member_limit  (int)
+                        user_id  (int)
                 Returns:
                     None
         """
@@ -129,6 +134,8 @@ class AddNewGame(Resource):
         game.member_limit = game_info['member_limit']
         if session.get('user_id'):
             game.author_id = session['user_id']
+        elif game_info['member_limit']:
+            game.author_id = game_info['member_limit']
         else:
             game.author_id = 0
 
