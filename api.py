@@ -282,7 +282,6 @@ class AddNewArticle(Resource):
 class Users(Resource):
     decorators = [auth.login_required]
     """Users info"""
-
     def get(self, user_id):
         """Get user info
                 Args:
@@ -298,22 +297,26 @@ class Users(Resource):
         else:
             abort(404)
 
-    def post(self):
-        """Register new user
-                Args:
-                    user (json):
-
-                Returns:
-                    pass
-        """
-        pass
-
-    def put(self):
+    def put(self, user_id):
         """update user info
                 Args:
                     user (json):
-
+                        username (str)
+                        qq  (str)
                 Returns:
                     pass
         """
-        pass
+        user = User.query.filter(User.user_id == user_id).first()
+        if not request.get_json() or not 'title' in request.get_json():
+            abort(400)
+        user_info = request.get_json()
+        user.username = user_info['username']
+        user.qq = user_info['qq']
+        db.session.commit()
+        return 201
+
+    def delete(self, user_id):
+        user = User.query.filter(User.user_id == user_id).first()
+        db.session.delete(user)
+        db.session.commit()
+        return 201

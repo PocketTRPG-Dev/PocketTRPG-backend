@@ -5,6 +5,8 @@ flask_mail
 flask_login
 flask_admin
 flask_socketio
+flask_docs
+flask_restful
 
 flask_pagedown
 markdown
