@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
 
     password_hash = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(50), nullable=False)
-    create_time = db.Column(db.DateTime, default=datetime.now())
+    create_time = db.Column(db.DateTime, default=datetime.now)
     invitationCode = db.Column(db.String(50))
     num_card = db.Column(db.Integer, default=0)
 
@@ -78,7 +78,7 @@ class Card_normal(db.Model):
     features = db.Column(db.Text)
     tag = db.Column(db.String(50))
     content = db.Column(db.Text())
-    create_time = db.Column(db.DateTime, default=datetime.now())
+    create_time = db.Column(db.DateTime, default=datetime.now)
     # Json
     data = db.Column(db.JSON)
     # 使用外键
@@ -93,13 +93,13 @@ class Article(db.Model):
     article_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(255), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    create_time = db.Column(db.DateTime, default=datetime.now())
+    create_time = db.Column(db.DateTime, default=datetime.now)
     # 使用外键
     author_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     author = db.relationship('User', backref=db.backref('article'))
 
     tag = db.Column(db.String(20), default='Normal')
-    state = db.Column(db.String(20))
+    state = db.Column(db.String(20), default='Open')
     num_comments = db.Column(db.Integer, default=0)
 
 
@@ -114,7 +114,7 @@ class Badge(db.Model):
     name = db.Column(db.String(255), nullable=False)
     content = db.Column(db.Text)
     badge_class = db.Column(db.String(20), default='label label-default')
-    create_time = db.Column(db.DateTime, default=datetime.now())
+    create_time = db.Column(db.DateTime, default=datetime.now)
 
     users = db.relationship('User', secondary=user_badge, backref=db.backref('badges'))
 
@@ -130,7 +130,7 @@ class Game(db.Model):
     game_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(255), nullable=False)
     comment = db.Column(db.Text)
-    create_time = db.Column(db.DateTime, default=datetime.now())
+    create_time = db.Column(db.DateTime, default=datetime.now)
     state = db.Column(db.String(10), default='Open')
     length = db.Column(db.Integer, default=0)
     password = db.Column(db.String(20))
@@ -161,7 +161,7 @@ class GamePost(db.Model):
     post_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     content = db.Column(db.Text)
     speaker = db.Column(db.String(20), default='Speaker')
-    create_time = db.Column(db.DateTime, default=datetime.now())
+    create_time = db.Column(db.DateTime, default=datetime.now)
     group_id = db.Column(db.Integer, default=1)
     send_to = db.Column(db.String(50))
 
@@ -176,7 +176,7 @@ class GamePost(db.Model):
 class Map(db.Model):
     __tablename__ = 'map'
     map_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    create_time = db.Column(db.DateTime, default=datetime.now())
+    create_time = db.Column(db.DateTime, default=datetime.now)
     size_height = db.Column(db.Integer, default=600)
     size_weight = db.Column(db.Integer, default=800)
     # Json
@@ -191,7 +191,14 @@ class ActivationCode(db.Model):
     __tablename__ = 'activation'
     activation_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     code = db.Column(db.String(30), nullable=False)
-    create_time = db.Column(db.DateTime, default=datetime.now())
+    create_time = db.Column(db.DateTime, default=datetime.now)
     used = db.Column(db.Boolean, default=False)
+
+
+class ApiToken(db.Model):
+    __tablename__ = 'token'
+    token_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    token = db.Column(db.String(30), nullable=False)
+    create_time = db.Column(db.DateTime, default=datetime.now)
 
 
