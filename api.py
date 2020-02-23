@@ -3,7 +3,7 @@ from flask_httpauth import HTTPTokenAuth
 from werkzeug.security import check_password_hash
 
 from exts import db
-from models import User, Game, GamePost, ApiToken, Article
+from models import User, Game, GamePost, ApiToken, Article, ActivationCode
 from flask import jsonify, abort, request, session
 import json
 
@@ -110,7 +110,7 @@ class Games(Resource):
         return 201
 
 
-class AddNewGame(Resource):
+class AddGame(Resource):
     """Add new game"""
 
     def post(self):
@@ -266,7 +266,7 @@ class Articles(Resource):
         return 201
 
 
-class AddNewArticle(Resource):
+class AddArticle(Resource):
     """Add new article"""
 
     def post(self):
@@ -337,5 +337,37 @@ class Users(Resource):
     def delete(self, user_id):
         user = User.query.filter(User.user_id == user_id).first()
         db.session.delete(user)
+        db.session.commit()
+        return 201
+
+
+class AddUser(Resource):
+    """Add new user"""
+
+    def post(self):
+        """Create new user
+                Args:
+                    user info(json):
+                        {''username': (str),'password': (str),'email': (int),'activationCode': (str)}
+                Returns:
+                    None
+        """
+        if not request.get_json() or not 'email' in request.get_json():
+            abort(400)
+        user_info = request.get_json()
+
+        code = ActivationCode.query.filter(ActivationCode.code == user_info['activationCode']).first()
+        if not code:
+            return '激活码不存在'
+        if code.used:
+            return '激活码已失效'
+        else:
+            code.used = True
+        user = User()
+        user.username = user_info['username']
+        user.set_password(user_info['password'])
+        user.email = user_info['email']
+        user.user_ip_address = request.remote_addr
+        db.session.add(user)
         db.session.commit()
         return 201

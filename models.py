@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from exts import db, JSONEncodedDict, MutableDict
+from exts import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -13,7 +13,7 @@ class User(UserMixin, db.Model):
     qq = db.Column(db.String(50))
 
     password_hash = db.Column(db.String(100), nullable=False)
-    role = db.Column(db.String(50), nullable=False)
+    role = db.Column(db.String(50), default='User')
     create_time = db.Column(db.DateTime, default=datetime.now)
     invitationCode = db.Column(db.String(50))
     num_card = db.Column(db.Integer, default=0)
@@ -52,6 +52,9 @@ class User(UserMixin, db.Model):
 
     @password.setter
     def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):

@@ -6,7 +6,7 @@ from flask_docs import ApiDoc
 from flask_restful import Api
 
 import config
-from api import Users, Games, GamePosts, PublicGameList, AddNewGame, Articles, ArticleList, AddNewArticle
+from api import Users, Games, GamePosts, PublicGameList, AddGame, Articles, ArticleList, AddArticle, AddUser
 from exts import db
 from models import User, Card_Pf, Card_normal, Article, ActivationCode, Game, GamePost, Badge, Map, ApiToken
 from forms import PostForm, LoginForm, RegistrationForm, CharacterFromNormal, CreateGameForm, GamePostForm, JoinGameForm
@@ -92,13 +92,15 @@ ApiDoc(app)
 restful_api.add_resource(Users, '/api/users/<user_id>')
 restful_api.add_resource(Games, '/api/games/<game_id>')
 restful_api.add_resource(PublicGameList, '/api/games/')
-restful_api.add_resource(AddNewGame, '/api/addgame')
+restful_api.add_resource(AddGame, '/api/addgame')
 
 restful_api.add_resource(Articles, '/api/articles/<article_id>')
 restful_api.add_resource(ArticleList, '/api/articles/')
-restful_api.add_resource(AddNewArticle, '/api/addarticle')
+restful_api.add_resource(AddArticle, '/api/addarticle')
 
 restful_api.add_resource(GamePosts, '/api/gameposts/<game_id>/<group>')
+
+restful_api.add_resource(AddUser, '/api/adduser')
 
 
 @app.route('/')
