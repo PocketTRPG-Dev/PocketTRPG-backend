@@ -52,6 +52,7 @@ class PublicGameList(Resource):
 
 class Games(Resource):
     """Games info"""
+
     def get(self, game_id):
         """Get game info
                 Args:
@@ -134,8 +135,8 @@ class AddNewGame(Resource):
         game.member_limit = game_info['member_limit']
         if session.get('user_id'):
             game.author_id = session['user_id']
-        elif game_info['member_limit']:
-            game.author_id = game_info['member_limit']
+        elif 'user_id' in game_info:
+            game.author_id = game_info['user_id']
         else:
             game.author_id = 0
 
@@ -146,6 +147,7 @@ class AddNewGame(Resource):
 
 class GamePosts(Resource):
     """GamePosts info"""
+
     def get(self, game_id, group=1):
         """Get gameposts list
                 Args:
@@ -197,6 +199,7 @@ class GamePosts(Resource):
 class ArticleList(Resource):
     decorators = [auth.login_required]
     """Get Articles list info"""
+
     def get(self):
         """Get articles list
                 Args:
@@ -214,12 +217,15 @@ class ArticleList(Resource):
 
 class Articles(Resource):
     """Articles info"""
+
     def get(self, article_id):
         """Get article by article_id
                 Args:
                     article_id (int)
                 Returns:
                     article info(json):
+                        {'article_id': (int), 'title': (str),'content': (str),'create_time': (datetime),
+                        'author_id': (int),'tag': (str),'state': (str)}
 
         """
         article = Article.query.filter(Article.article_id == article_id).first()
@@ -262,10 +268,13 @@ class Articles(Resource):
 
 class AddNewArticle(Resource):
     """Add new article"""
+
     def post(self):
         """Create new article
                 Args:
-                    article (json)
+                    article info(json):
+                        {''title': (str),'content': (str),
+                        'author_id': (int),'tag': (str),'state': (str)}
                 Returns:
                     None
         """
@@ -279,6 +288,8 @@ class AddNewArticle(Resource):
         article.state = article_info['state']
         if session.get('user_id'):
             article.author_id = session['user_id']
+        elif 'user_id' in article_info:
+            article.author_id = article_info['user_id']
         else:
             article.author_id = 1
         db.session.add(article)
@@ -289,13 +300,14 @@ class AddNewArticle(Resource):
 class Users(Resource):
     decorators = [auth.login_required]
     """Users info"""
+
     def get(self, user_id):
         """Get user info
                 Args:
                     user_id (int)
-
                 Returns:
-                    user(json):{'user_id': user_id, 'username':user.username,'email':user.email}
+                    user(json):
+                        {'user_id': (int), 'username': (str),'email': (str)}
         """
         user = User.query.filter(User.user_id == user_id).first()
         if user:
