@@ -89,16 +89,16 @@ pagedown.init_app(app)
 restful_api = Api(app)
 ApiDoc(app)
 
-restful_api.add_resource(Users, '/users/<user_id>')
-restful_api.add_resource(Games, '/games/<game_id>')
-restful_api.add_resource(PublicGameList, '/games/')
-restful_api.add_resource(AddNewGame, '/addgame')
+restful_api.add_resource(Users, '/api/users/<user_id>')
+restful_api.add_resource(Games, '/api/games/<game_id>')
+restful_api.add_resource(PublicGameList, '/api/games/')
+restful_api.add_resource(AddNewGame, '/api/addgame')
 
-restful_api.add_resource(Articles, '/articles/<article_id>')
-restful_api.add_resource(ArticleList, '/articles/')
-restful_api.add_resource(AddNewArticle, '/addarticle')
+restful_api.add_resource(Articles, '/api/articles/<article_id>')
+restful_api.add_resource(ArticleList, '/api/articles/')
+restful_api.add_resource(AddNewArticle, '/api/addarticle')
 
-restful_api.add_resource(GamePosts, '/gameposts/<game_id>/<group>')
+restful_api.add_resource(GamePosts, '/api/gameposts/<game_id>/<group>')
 
 
 @app.route('/')
